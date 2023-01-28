@@ -14,20 +14,34 @@ function generateFieldPrompt() {
 
   Logger.log(selection.getActiveRange().getA1Notation());
   
-  var response = ui.prompt('Currently selected cells are: ' + selectedRange + ', if this is not correct enter new range using A1 notation:', ui.ButtonSet.OK_CANCEL);
+  var response = ui.prompt('NOT WORKING: Currently selected cells are: ' + selectedRange + ', if this is not correct enter new range using A1 notation:', ui.ButtonSet.OK_CANCEL);
 
   var userRange = response.getResponseText();
   
-  if (userRange != ""){
-    selectedRange = userRange;
+  //if (userRange != ""){
+    //selectedRange = userRange;
+  //}
+
+  var numberOfColumns = activeSheet.getActiveRange().getWidth();
+  var values = activeSheet.getActiveRange().getValues();
+
+  listAllActivities(ui, numberOfColumns, values);
+}
+
+function listAllActivities(ui, selectedRange, activeSheet){
+
+  var html = HtmlService.createHtmlOutputFromFile('ListAllActivities');
+  SpreadsheetApp.getUi()
+      .showModalDialog(html, 'Test');
+
+  var generatedHtml = '<!DOCTYPE html> <html> <head> <base target="_top"> </head> <body>'
+  for (i=0;i<5;i++){
+    html = html + Utilities.formatString('<input type="checkbox" name="checkboxGroup" id="%s" value="%s" checked="yes"> <label> %s </label> <br>', Number(i), Number(i) ,Number(i));
   }
+  html += '<input type="button" value="Next" onclick="google.script.host.close()" />'
+  html = html + '</body> </html>'
 
-  listAllActivities(selectedRange);
+  var uiHtml = HtmlService.createHtmlOutput(html);
 
-  function listAllActivities(range){
-    var html = HtmlService.createHtmlOutputFromFile('Index');
-
-    SpreadsheetApp.getUi().showModalDialog(html,range);
-
-  }
+  ui.showModalDialog(uiHtml, 'Uncheck boxes for lectures that need to be excluded');
 }
