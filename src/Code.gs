@@ -71,7 +71,8 @@ function listAllActivities(ui, numberOfColumns, values){
       
     }
   }
-  generatedHtml += '<input type="button" value="Close" onclick="getLectures()" />'
+  generatedHtml += '<br><br><input type="button" value="Next" onclick="getLectures()" /> <br>'
+  generatedHtml += '<input type="button" value="Next" onclick="google.script.host.close();" />'
   
   generatedHtml = generatedHtml + '</body> </html>'
 
@@ -81,26 +82,23 @@ function listAllActivities(ui, numberOfColumns, values){
 }
 
 function generateForm(selectedLectures){
-  var ui = SpreadsheetApp.getUi();
-  console.log('Paramteres are: ' + selectedLectures);
+
+  //var ui = SpreadsheetApp.getUi();
+  console.log('started');
+
+  var form = FormApp.create('Anketa - Zimski 2023');
+  generateStartQuestions(form);
+  
+  generateQuestionForInterview(form);
+
+  const lectures = selectedLectures.split('/');
+  for (var i = 0; i<lectures.length;i++)
+    generateQuestionsForLecture(form, lectures[i]);
+
+  generateQuestionsForAssistants(form);
+  generateEndQuestions(form); 
+
+  console.log('Published URL: ' + form.getPublishedUrl());
+  console.log('Editor URL: ' + form.getEditUrl()); 
 }
 
-/*
-
-// Pass the checkbox name to the function
-function getCheckedBoxes() {
-  var checkboxes = document.getElementsByName(chkboxName);
-  var checkboxesChecked = [];
-  // loop over them all
-  for (var i=0; i<checkboxes.length; i++) {
-     // And stick the checked ones onto an array...
-     if (checkboxes[i].checked) {
-        checkboxesChecked.push(checkboxes[i]);
-     }
-  }
-  // Return the array if it is non-empty, or null
-  return checkboxesChecked.length > 0 ? checkboxesChecked : null;
-}
-
-// Call as
-var checkedBoxes = getCheckedBoxes("mycheckboxes");*/
