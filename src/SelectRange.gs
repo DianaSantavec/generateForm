@@ -1,22 +1,25 @@
-function generateFieldPrompt() {
+function generateSelectCoordinatesSidebar() {
+
+  var html = HtmlService.createHtmlOutputFromFile('SelectRange');
   var ui = SpreadsheetApp.getUi();
   
+  ui.showSidebar(html);
+}
+
+function getSelectedCoordinates(){
   var activeSheet = SpreadsheetApp.getActiveSheet();
   var selection = activeSheet.getSelection();
   var selectedRange = selection.getActiveRange().getA1Notation();
+  return selectedRange;
+}
 
-  Logger.log(selection.getActiveRange().getA1Notation());
-  
-  var response = ui.prompt('NOT WORKING: Currently selected cells are: ' + selectedRange + ', if this is not correct enter new range using A1 notation:', ui.ButtonSet.OK_CANCEL);
-
-  var userRange = response.getResponseText();
-  
-  //if (userRange != ""){
-    //selectedRange = userRange;
-  //}
+function closeCoordinateSidebar(){
+  Utilities.sleep(1000);
+  var activeSheet = SpreadsheetApp.getActiveSheet();
 
   var numberOfColumns = activeSheet.getActiveRange().getWidth();
   var values = activeSheet.getActiveRange().getValues();
 
-  listAllActivities(ui, numberOfColumns, values);
+  listAllActivities(numberOfColumns, values);
+
 }

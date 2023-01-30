@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <p id="selectedRange">Please select fields to be used for survey generating</p>
+
+  <script>
+    function next(){
+      google.script.run.withSuccessHandler(function() { google.script.host.close() }).closeCoordinateSidebar();
+      //google.script.run.closeCoordinateSidebar();
+      //google.script.host.close()
+    }
+
+    function onSuccess(coordinates) {
+        var div = document.getElementById('selectedRange');
+        div.innerHTML = 'You selected ' + coordinates
+            + ' for survey generating';
+      }
+    const interval = setInterval(function() {
+      var result = google.script.run.withSuccessHandler(onSuccess).getSelectedCoordinates();
+    document.getElementById("selectedRange").innerHtml = (result);
+ }, 100);
+  </script>
+    <input type="button" value="Next" onclick="next()" />
+    <input type="button" value="Close" onclick="google.script.host.close()" />
+</body>
+</html>

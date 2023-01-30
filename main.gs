@@ -80,9 +80,6 @@ function readFromSpreadsheet(form) {
 
   try{
     const values = Sheets.Spreadsheets.Values.get(spreadsheetId, range).values;
-
-    
-
     if (!values) {
       console.log('No data found.');
       return;

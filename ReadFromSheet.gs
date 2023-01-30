@@ -1,10 +1,10 @@
-function listAllActivities(ui, numberOfColumns, values){
+function listAllActivities(numberOfColumns, values){
 
- /* var html = HtmlService.createHtmlOutputFromFile('ListAllActivities');
-  SpreadsheetApp.getUi().showSidebar(html);*/
-//      .showModalDialog(html, 'Test');
+  Utilities.sleep(2000);
+  console.log("usao u listAllActivities");
+  var ui = SpreadsheetApp.getUi();
 
-  var generatedHtml = '<!DOCTYPE html> <html> <head> <base target="_top"> <script> function getLectures(){ var all = document.getElementsByName("checkboxGroup"); var selectedLectures = ""; for(var i=0; i <all.length; i++){ if(all[i].checked){ selectedLectures += all[i].id + "/";}} if (selectedLectures.length > 0){ google.script.run.generateForm(selectedLectures);google.script.host.close();} else{ google.script.host.close(); } } </script> </head> <body>'
+  var generatedHtml = '<!DOCTYPE html> <html> <head> <base target="_top"> <script> function getLectures(){ var all = document.getElementsByName("checkboxGroup"); var selectedLectures = ""; for(var i=0; i <all.length; i++){ if(all[i].checked){ selectedLectures += all[i].id + "/";}} if (selectedLectures.length > 0){ google.script.run.withSuccessHandler(function() { google.script.host.close() }).generateForm(selectedLectures);} else{ google.script.host.close(); } } </script> </head> <body>'
   var saved = [""];
   for (const row in values){
     for (i=0;i<numberOfColumns;i++){
@@ -42,12 +42,11 @@ function listAllActivities(ui, numberOfColumns, values){
     }
   }
   generatedHtml += '<br><br><input type="button" value="Next" onclick="getLectures()" /> <br>'
-  generatedHtml += '<input type="button" value="Next" onclick="google.script.host.close();" />'
+  generatedHtml += '<input type="button" value="Close" onclick="google.script.host.close();" />'
   
   generatedHtml = generatedHtml + '</body> </html>'
 
   var uiHtml = HtmlService.createHtmlOutput(generatedHtml);
 
   ui.showModalDialog(uiHtml, 'Uncheck boxes for lectures that need to be excluded');
-  //ui.showSidebar(uiHtml);
 }
