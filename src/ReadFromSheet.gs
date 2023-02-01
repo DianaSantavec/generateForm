@@ -6,9 +6,10 @@ function listAllActivities(numberOfColumns, values){
 
   var generatedHtml = '<!DOCTYPE html> <html> <head> <base target="_top"> <script> function getLectures(){ var all = document.getElementsByName("checkboxGroup"); var selectedLectures = ""; for(var i=0; i <all.length; i++){ if(all[i].checked){ selectedLectures += all[i].id + "/";}} if (selectedLectures.length > 0){ google.script.run.withSuccessHandler(function() { google.script.host.close() }).generateForm(selectedLectures);} else{ google.script.host.close(); } } </script> </head> <body>'
   var saved = [""];
-  for (const row in values){
-    for (i=0;i<numberOfColumns;i++){
-      var value = values[row][i];
+  for (var range = 0; range < numberOfColumns.length; range++){
+  for (const row in values[range]){
+    for (i=0;i<numberOfColumns[range];i++){
+      var value = values[range][row][i];
       switch (value){
         case 'doručak':
         case 'ručak':
@@ -40,7 +41,7 @@ function listAllActivities(numberOfColumns, values){
         }
       
     }
-  }
+  }}
   generatedHtml += '<br><br><input type="button" value="Next" onclick="getLectures()" /> <br>'
   generatedHtml += '<input type="button" value="Close" onclick="google.script.host.close();" />'
   

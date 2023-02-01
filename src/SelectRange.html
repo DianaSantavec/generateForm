@@ -9,8 +9,6 @@
   <script>
     function next(){
       google.script.run.withSuccessHandler(function() { google.script.host.close() }).closeCoordinateSidebar();
-      //google.script.run.closeCoordinateSidebar();
-      //google.script.host.close()
     }
 
     function onSuccess(coordinates) {
