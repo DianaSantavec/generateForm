@@ -1,9 +1,6 @@
 function generateForm(selectedLectures){
 
   Utilities.sleep(2000);
-  
-  /*var html = HtmlService.createHtmlOutputFromFile('ListAllActivities');
-  SpreadsheetApp.getUi().showModalDialog(html, 'Test');*/
 
   var ui = SpreadsheetApp.getUi();
     
@@ -21,13 +18,17 @@ function generateForm(selectedLectures){
   generateQuestionsForAssistants(form);
   generateEndQuestions(form); 
 
-  var htmlOutput = '<!DOCTYPE html> <html> <head> <base target="_top"> </head> <body> Published URL: ';
-  htmlOutput = htmlOutput + Utilities.formatString('"%s" <br> Editor URL: "%s"', form.getPublishedUrl(), form.getEditUrl());
-  htmlOutput = htmlOutput + '<input type="button" value="Close" onclick="google.script.host.close()" /> </body> </html>'
+  //var htmlOutput = '<!DOCTYPE html> <html> <head> <base target="_top"> </head> <body> Published URL: ';
 
-  //ui.alert("Published URL: " + form.getPublishedUrl() + "\n Editor URL: " + form.getEditors() ,ui.Button.CLOSE);
+  var htmlOutput = HtmlService.createHtmlOutputFromFile('LinksDialog');
 
-    var uiHtml = HtmlService.createHtmlOutput(htmlOutput);
-    ui.showModalDialog(uiHtml, 'Links ');
+  htmlOutput.append(Utilities.formatString('<input readonly type="text" value="%s" id="publishedUrl"> <button onclick="copyPublished()"> Copy to clipboard </button> <br> Editor URL: <input readonly type="text" value="%s" id="editorUrl"> <button onclick="copyEditor()"> Copy to clipboard </button>', form.getPublishedUrl(), form.getEditUrl()));
+
+  htmlOutput.append('<div id="outer">');
+  htmlOutput.append('<div class="inner"><button class="sidebar_button" role="button" data-inline="true" onclick="google.script.host.close()" > Close </button></div>');
+  htmlOutput.append('</div> </body> </html>');
+  
+  var uiHtml = HtmlService.createHtmlOutput(htmlOutput);
+  ui.showModalDialog(uiHtml, 'Links ');
 
 }

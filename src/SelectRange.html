@@ -2,26 +2,94 @@
 <html>
   <head>
     <base target="_top">
+
+  <style>
+    .sidebar_button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+      border-radius: 6px;
+      border: none;
+      width: 100px;
+
+      background: #616161;
+      box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+      color: #DFDEDF;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .sidebar_button:focus {
+      box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(97, 97, 97, 0.5);
+      outline: 0;
+    }
+
+  #outer{
+    width:100%;
+    text-align: center;
+  }
+  .inner{
+    display: inline-block;
+  }
+
+  .load {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #616161;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 1.5s linear infinite;
+}
+
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+  </style>
+  
   </head>
   <body>
-    <p id="selectedRange">Please select fields to be used for survey generating</p>
+    <p id="description">Please select cells to be used for survey generating <br> <br> <br> Selected cells are:</p>
+    <p id="selectedRange"> </p>
 
   <script>
     function next(){
-      google.script.run.withSuccessHandler(function() { google.script.host.close() }).closeCoordinateSidebar();
+ 
+    var circle = document.getElementById('wait');
+    circle.style.display = "block";
+    google.script.run.withSuccessHandler(function() { google.script.host.close() }).closeCoordinateSidebar();
     }
 
     function onSuccess(coordinates) {
         var div = document.getElementById('selectedRange');
-        div.innerHTML = 'You selected ' + coordinates
-            + ' for survey generating';
+        var splitted = coordinates.split(' ');
+        var output = "";
+        for (var i = 0; i<splitted.length;i++){
+          output += splitted[i] + "<br>";
+        }
+        div.innerHTML = output;
+        
       }
     const interval = setInterval(function() {
       var result = google.script.run.withSuccessHandler(onSuccess).getSelectedCoordinates();
     document.getElementById("selectedRange").innerHtml = (result);
  }, 100);
   </script>
-    <input type="button" value="Next" onclick="next()" />
-    <input type="button" value="Close" onclick="google.script.host.close()" />
+  <div id="outer">
+    <div class="inner"><button class="sidebar_button" role="button" data-inline="true" onclick="google.script.host.close()" > Close </button></div>
+    <div class="inner"><button class="sidebar_button" role="button" data-inline="true" onclick="next()"> Next </button></div>
+  </div>
+  <div id="wait" style="display:none;" class="load"></div>
 </body>
 </html>
+

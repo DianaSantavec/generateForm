@@ -1,6 +1,6 @@
 function onOpen() {
   SpreadsheetApp.getUi()
-      .createMenu('Generate Survey')
+      .createMenu('Petnica')
       .addItem('Generate survey', 'generateSelectCoordinatesSidebar') 
       .addToUi();
 }

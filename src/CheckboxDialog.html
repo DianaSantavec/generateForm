@@ -1,0 +1,81 @@
+<!DOCTYPE html> 
+<html>
+  <head>
+    <base target="_top">
+
+    <style>
+      .sidebar_button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 6px 14px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        border-radius: 6px;
+        border: none;
+        width: 100px;
+
+        background: #616161;
+        box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+        color: #DFDEDF;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      .sidebar_button:focus {
+        box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(97, 97, 97, 0.5);
+        outline: 0;
+      }
+
+    #outer{
+      width:100%;
+      text-align: center;
+    }
+    .inner{
+      display: inline-block;
+    }
+
+    .load {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #616161;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 1.5s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+      <script>
+        function getLectures(){
+          var all = document.getElementsByName("checkboxGroup");
+          var selectedLectures = "";
+          for(var i=0; i <all.length; i++){
+            if(all[i].checked){
+              selectedLectures += all[i].id + "/";
+            }
+          }
+
+          if (selectedLectures.length > 0){
+            var circle = document.getElementById('wait');
+            //var text = document.getElementById('checkboxGroup');
+            circle.style.display = "block";
+            //text.style = "none";
+            google.script.run.withSuccessHandler(function() { google.script.host.close() }).generateForm(selectedLectures);
+          }
+          else{ google.script.host.close();
+          }
+        }
+      </script>
+    </head>
+  <body>
