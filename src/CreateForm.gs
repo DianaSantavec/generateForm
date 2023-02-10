@@ -18,7 +18,7 @@ function generateForm(selectedLectures){
   generateQuestionsForAssistants(form);
   generateEndQuestions(form); 
 
-  //var htmlOutput = '<!DOCTYPE html> <html> <head> <base target="_top"> </head> <body> Published URL: ';
+  moveToCurrent(form);
 
   var htmlOutput = HtmlService.createHtmlOutputFromFile('LinksDialog');
 
