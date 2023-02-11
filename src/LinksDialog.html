@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+      <style>
+    .sidebar_button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+      border-radius: 6px;
+      border: none;
+      width: 100px;
+
+      background: #616161;
+      box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+      color: #DFDEDF;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .sidebar_button:focus {
+      box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1px rgba(0, 0, 0, 0.1), 0px 0px 0px 3.5px rgba(97, 97, 97, 0.5);
+      outline: 0;
+    }
+
+  #outer{
+    width:100%;
+    text-align: center;
+  }
+  .inner{
+    display: inline-block;
+  }
+
+  .tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+  </style>
+
+  <script>
+    function copyPublished(){
+      var copyText = document.getElementById("publishedUrl");
+      navigator.clipboard.writeText(copyText.value);
+      
+      var tooltip = document.getElementById("myTooltip");
+      tooltip.innerHTML = "Link copied!";
+    }
+    function copyEditor(){
+      var copyText = document.getElementById("editorUrl");
+      navigator.clipboard.writeText(copyText.value);
+      
+      var tooltip = document.getElementById("myTooltip2");
+      tooltip.innerHTML = "Link copied!";
+    }
+
+    function outFunc() {
+      var tooltip = document.getElementById("myTooltip");
+      tooltip.innerHTML = "Copy link to clipboard";
+    }
+  </script>
+    
+    </head>
+    <body>
+      Below are provided links to forms. Forms are saved on google drive in the same directory as where the sheet is.
+      <br>
+      <br>
+      Published URL: 
