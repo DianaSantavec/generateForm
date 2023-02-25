@@ -57,6 +57,10 @@
   </style>
 
       <script>
+        function onFailure(){
+          google.script.run.withSuccessHandler(function() { google.script.host.close() }).errorDialogForDrive();
+        }
+
         function getLectures(){
           var all = document.getElementsByName("checkboxGroup");
           var selectedLectures = "";
@@ -71,7 +75,10 @@
             //var text = document.getElementById('checkboxGroup');
             circle.style.display = "block";
             //text.style = "none";
-            google.script.run.withSuccessHandler(function() { google.script.host.close() }).generateForm(selectedLectures);
+            google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(function() { google.script.host.close() })
+            .generateForm(selectedLectures);
           }
           else{ google.script.host.close();
           }
