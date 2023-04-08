@@ -1,24 +1,24 @@
-function generateForm(selectedLectures){
+function createForm(){
 
-  Utilities.sleep(2000);
+	//var form = FormApp.create('Anketa - Zimski 2023');
+  //return form;
+}
+ 
+function generateQuestionsForLectures(id, selectedLectures) {
+  var form = FormApp.openById(id);
 
-  var ui = SpreadsheetApp.getUi();
-    
-  console.log('started form generation');
-  
-  var form = FormApp.create('Anketa - Zimski 2023');
-  generateStartQuestions(form);
-  
-  generateQuestionForInterview(form);
-  
+  console.log('Started form generation');
   const lectures = selectedLectures.split('/');
-  for (var i = 0; i<lectures.length;i++)
+  for (var i = 0; i < lectures.length; i++) {
     generateQuestionsForLecture(form, lectures[i]);
+  }
 
-  generateQuestionsForAssistants(form);
-  generateEndQuestions(form); 
+  return id;
+}
 
-  moveToCurrent(form);
+function createDialogWithLinks(id){
+  var ui = SpreadsheetApp.getUi();
+  var form = FormApp.openById(id);
 
   var htmlOutput = HtmlService.createHtmlOutputFromFile('LinksDialog');
 
@@ -29,8 +29,10 @@ function generateForm(selectedLectures){
   htmlOutput.append('<div id="outer">');
   htmlOutput.append('<div class="inner"><button class="sidebar_button" role="button" data-inline="true" onclick="google.script.host.close()" > Close </button></div>');
   htmlOutput.append('</div> </body> </html>');
-  
+
   var uiHtml = HtmlService.createHtmlOutput(htmlOutput);
   ui.showModalDialog(uiHtml, 'Links ');
+
+  //return form;
 
 }

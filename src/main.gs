@@ -1,28 +1,49 @@
+/*
 function generateFormObsolite(){
   var form = FormApp.create('Anketa - Zimski 2023');
   generateStartQuestions(form);
   
   generateQuestionForInterview(form);
 
-  readFromSpreadsheet(form);
+  readFromSpreadsheet(form); 
   
   generateQuestionsForAssistants(form);
   generateEndQuestions(form); 
    
-
+ 
   Logger.log('Published URL: ' + form.getPublishedUrl());
   Logger.log('Editor URL: ' + form.getEditUrl());  
 }
+*/
 
-function generateStartQuestions(form){
+function generateStartQuestions(){
+  form = FormApp.create('Anketa - Zimski 2023');
+  id = form.getId();
+
   var positiveImpressions = form.addTextItem();
   positiveImpressions.setTitle("Pokušaj u dve reči da sumiraš najpozitivnije utiske seminara.");
 
   var negativeImpressions = form.addTextItem();
   negativeImpressions.setTitle("Pokušaj u dve reči da sumiraš najnegativnije utiske seminara.");
+  return id;
 }
 
-function generateQuestionsForAssistants(form){
+function generateQuestionForInterview(id){
+  var form = FormApp.openById(id)
+
+  console.log('in gen quest');
+  console.log(form);
+  var multipleVote = form.addGridItem();
+  multipleVote.setTitle("Intervjui")
+    .setRows(["Koliko je bilo korisno", "Koliko je bilo zanimljivo", "Koliko je bilo stresno"])
+    .setColumns(["1", "2", "3", "4", "5"]);
+  
+  return id;
+}
+
+function generateQuestionsForAssistants(id){
+  var form = FormApp.openById(id)
+
   var rateAssistans = form.addScaleItem();
   rateAssistans.setTitle("Opšti utisak o saradnicima")
     .setBounds(1,5)
@@ -38,9 +59,14 @@ function generateQuestionsForAssistants(form){
 
   var commentForAssistants = form.addTextItem();
   commentForAssistants.setTitle("Dodatan komentar o rukovodiocu seminara");
+
+  return id;
 }
 
-function generateEndQuestions(form){
+function generateEndQuestions(id){
+  var form = FormApp.openById(id)
+  
+
   var rateSeminar = form.addScaleItem();
   rateSeminar.setTitle("Opšti utisak o seminaru")
     .setBounds(1,5)
@@ -54,13 +80,8 @@ function generateEndQuestions(form){
 
   var otherComments = form.addTextItem();
   otherComments.setTitle("Ako imaš još nešto da nam kažeš što te nismo pitali slobodno nam to napiši ovde:");
-}
 
-function generateQuestionForInterview(form){
-  var multipleVote = form.addGridItem();
-  multipleVote.setTitle("Intervjui")
-    .setRows(["Koliko je bilo korisno", "Koliko je bilo zanimljivo", "Koliko je bilo stresno"])
-    .setColumns(["1", "2", "3", "4", "5"]);
+  return id;
 }
 
 function generateQuestionsForLecture(form, value){
@@ -71,10 +92,13 @@ function generateQuestionsForLecture(form, value){
 
     var otherComments = form.addTextItem();
     otherComments.setTitle("Dodatan komentar o aktivnosti \"" + value + "\"");
-
 }
 
-function readFromSpreadsheet(form) {
+function readFromSpreadsheet() {
+  //formData.createForm();
+  //form = formData.getForm();
+  var form = FormApp.openById(id);
+  
   const spreadsheetId = '1I2tu8QyBWblAYOLFA-c6Z79w0j6Di71ZwQFTXZV5Kwk';
   const range = 'C6:H22';
 
@@ -126,4 +150,5 @@ function readFromSpreadsheet(form) {
   } catch (err) {
     console.log(err.message);
   }  
+  return id;
 }

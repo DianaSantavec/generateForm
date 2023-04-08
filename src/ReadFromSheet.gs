@@ -1,9 +1,8 @@
 function listAllActivities(numberOfColumns, values){
 
-  Utilities.sleep(2000);
   console.log("usao u listAllActivities");
   var ui = SpreadsheetApp.getUi();
-
+ 
   //var generatedHtml = '<!DOCTYPE html> <html> <head> <base target="_top"> <script> function getLectures(){ var all = document.getElementsByName("checkboxGroup"); var selectedLectures = ""; for(var i=0; i <all.length; i++){ if(all[i].checked){ selectedLectures += all[i].id + "/";}} if (selectedLectures.length > 0){ google.script.run.withSuccessHandler(function() { google.script.host.close() }).generateForm(selectedLectures);} else{ google.script.host.close(); } } </script> </head> <body>'
 
   var generatedHtml = HtmlService.createHtmlOutputFromFile('CheckboxDialog');
@@ -49,13 +48,22 @@ function listAllActivities(numberOfColumns, values){
 
   generatedHtml.append('<div id="outer">');
   generatedHtml.append('<div class="inner"><button class="sidebar_button" role="button" data-inline="true" onclick="google.script.host.close()" > Close </button></div>');
-  generatedHtml.append('<div class="inner"><button class="sidebar_button" role="button" data-inline="true" onclick="getLectures()"> Next </button></div>')
+  generatedHtml.append('<div class="inner"><button class="sidebar_button" role="button" data-inline="true" onclick="getLectures()"> Next </button></div>');
   generatedHtml.append('</div>');
   generatedHtml.append('<div id="wait" style="display:none;" class="load"></div>');
+
+  generatedHtml.append('<div id="progressBar" style="display:none;">');
+  generatedHtml.append('<input type="checkbox" name="progressGroup" id="startQuestions" disabled> <label> Start questions </label> <br>');
+  generatedHtml.append('<input type="checkbox" name="progressGroup" id="interviewQuestions" disabled> <label> Interview questions </label> <br>');
+  generatedHtml.append('<input type="checkbox" name="progressGroup" id="lecturesQuestions" disabled> <label> Lectures questions </label> <br>');
+  generatedHtml.append('<div id="patience" style="display:none;"> <p id="patience_p"> </p> </div>');
+  generatedHtml.append('<input type="checkbox" name="progressGroup" id="assistantsQuestions" disabled> <label> Questions for assistants </label> <br>');
+  generatedHtml.append('<input type="checkbox" name="progressGroup" id="endQuestions" disabled> <label> End questions </label> <br>');
+  generatedHtml.append('</div>');
   
   generatedHtml.append( '</body> </html>');
 
   var uiHtml = HtmlService.createHtmlOutput(generatedHtml);
 
-  ui.showModalDialog(uiHtml, 'Uncheck boxes for lectures that need to be excluded');
+  ui.showModalDialog(uiHtml, 'Remove selection on boxes for lectures that need to be excluded');
 }
