@@ -55,9 +55,59 @@
       100% { transform: rotate(360deg); }
     }
   </style>
-
+ 
       <script>
-        function getLectures(){
+        var interval;
+        var patience_i = 0;
+        var j = true;
+        function onFailure(){
+          google.script.run.withSuccessHandler(function() { google.script.host.close() }).errorDialogForDrive();
+        }
+
+        function startQuestions(){
+          google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(addQuestionForInterview)
+            .generateStartQuestions();
+        }
+
+        function addQuestionForInterview(id){
+          document.getElementById("startQuestions").checked = true;
+          google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(addQuestionsForLectures)
+            .generateQuestionForInterview(id);
+        }
+
+        function start(){
+          interval = setInterval(patienceMessages, 7000)
+        }
+
+        function stop(){
+          clearInterval(interval);
+          var patience_div = document.getElementById('patience');
+          patience_div.style.display = "none";
+        }
+
+        function patienceMessages(){
+          var sentences = ["Please wait", "This could take a while", "Almost done", "Just a little bit more", "Still working"];
+          if (j){
+              var patience_div = document.getElementById('patience');
+              patience_div.style.display = "block";
+              j = false;
+            }
+            var patience_text = document.getElementById('patience_p');
+            patience_text.innerHTML = "";
+            if (patience_i == sentences.length){
+              patience_i = 0;
+            }
+            patience_text.innerHTML = sentences[patience_i];
+            patience_i += 1;
+        }
+
+        function addQuestionsForLectures(id){
+          document.getElementById("interviewQuestions").checked = true;
+          start();
           var all = document.getElementsByName("checkboxGroup");
           var selectedLectures = "";
           for(var i=0; i <all.length; i++){
@@ -66,15 +116,68 @@
             }
           }
 
-          if (selectedLectures.length > 0){
+          google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(addQuestionsForAssistants)
+            .generateQuestionsForLectures(id, selectedLectures);
+        }
+
+        function addQuestionsForAssistants(id){
+          stop();
+          document.getElementById("lecturesQuestions").checked = true;
+          console.log("addQuestionsForAssistants");
+          google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(addEndQuestions)
+            .generateQuestionsForAssistants(id);
+        }
+
+        function addEndQuestions(id){
+          document.getElementById("assistantsQuestions").checked = true;
+          console.log("addEndQuestions");
+          google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(openLinkDialog)
+            .generateEndQuestions(id);
+        }
+
+        function openLinkDialog(id){
+          document.getElementById("endQuestions").checked = true;
+          google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(function() { google.script.host.close() })
+            .createDialogWithLinks(id);
+        }
+
+        
+
+        function getLectures(){
+          /*var all = document.getElementsByName("checkboxGroup");
+          var selectedLectures "";
+          for(var i=0; i <all.length; i++){
+            if(all[i].checked){
+              selectedLectures += all[i].id + "/";
+            }
+          }*/
+
+          //if (selectedLectures.length > 0){
             var circle = document.getElementById('wait');
             //var text = document.getElementById('checkboxGroup');
-            circle.style.display = "block";
+            circle.style.display = "block"; 
+
+            var progressBar = document.getElementById('progressBar');
+            progressBar.style.display = "block"
             //text.style = "none";
-            google.script.run.withSuccessHandler(function() { google.script.host.close() }).generateForm(selectedLectures);
-          }
-          else{ google.script.host.close();
-          }
+
+            /*var form = google.script.run
+            .withFailureHandler(function () { onFailure()} )
+            .withSuccessHandler(function() { google.script.host.close() }).generateStartQuestions();*/
+            startQuestions();
+
+            console.log("create form");
+          //}
+          //else{ google.script.host.close();
+          //}
         }
       </script>
     </head>

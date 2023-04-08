@@ -1,7 +1,6 @@
 function generateSelectCoordinatesSidebar() {
-
   var htmlSidebar = HtmlService.createHtmlOutputFromFile('SelectRange');
-  htmlSidebar.setTitle('Cell selection')
+  htmlSidebar.setTitle('Cell selection');
   
   var ui = SpreadsheetApp.getUi();
   ui.showSidebar(htmlSidebar);
