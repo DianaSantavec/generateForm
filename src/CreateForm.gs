@@ -1,22 +1,16 @@
-function createForm(){
 
-	//var form = FormApp.create('Anketa - Zimski 2023');
-  //return form;
-}
- 
-function generateQuestionsForLectures(id, selectedLectures) {
+function generateQuestionsForLectures(selectedLectures) {
+  var id  = ScriptProperties.getProperty('FormId');
   var form = FormApp.openById(id);
 
-  console.log('Started form generation');
   const lectures = selectedLectures.split('/');
   for (var i = 0; i < lectures.length; i++) {
     generateQuestionsForLecture(form, lectures[i]);
   }
-
-  return id;
 }
 
-function createDialogWithLinks(id){
+function createDialogWithLinks(){
+  var id  = ScriptProperties.getProperty('FormId');
   var ui = SpreadsheetApp.getUi();
   var form = FormApp.openById(id);
 
@@ -32,7 +26,4 @@ function createDialogWithLinks(id){
 
   var uiHtml = HtmlService.createHtmlOutput(htmlOutput);
   ui.showModalDialog(uiHtml, 'Links ');
-
-  //return form;
-
 }

@@ -64,21 +64,6 @@
           google.script.run.withSuccessHandler(function() { google.script.host.close() }).errorDialogForDrive();
         }
 
-        function startQuestions(){
-          google.script.run
-            .withFailureHandler(function () { onFailure()} )
-            .withSuccessHandler(addQuestionForInterview)
-            .generateStartQuestions();
-        }
-
-        function addQuestionForInterview(id){
-          document.getElementById("startQuestions").checked = true;
-          google.script.run
-            .withFailureHandler(function () { onFailure()} )
-            .withSuccessHandler(addQuestionsForLectures)
-            .generateQuestionForInterview(id);
-        }
-
         function start(){
           interval = setInterval(patienceMessages, 7000)
         }
@@ -105,7 +90,7 @@
             patience_i += 1;
         }
 
-        function addQuestionsForLectures(id){
+        function addQuestionsForLectures(){
           document.getElementById("interviewQuestions").checked = true;
           start();
           var all = document.getElementsByName("checkboxGroup");
@@ -118,66 +103,30 @@
 
           google.script.run
             .withFailureHandler(function () { onFailure()} )
-            .withSuccessHandler(addQuestionsForAssistants)
-            .generateQuestionsForLectures(id, selectedLectures);
-        }
-
-        function addQuestionsForAssistants(id){
-          stop();
-          document.getElementById("lecturesQuestions").checked = true;
-          console.log("addQuestionsForAssistants");
-          google.script.run
-            .withFailureHandler(function () { onFailure()} )
-            .withSuccessHandler(addEndQuestions)
-            .generateQuestionsForAssistants(id);
-        }
-
-        function addEndQuestions(id){
-          document.getElementById("assistantsQuestions").checked = true;
-          console.log("addEndQuestions");
-          google.script.run
-            .withFailureHandler(function () { onFailure()} )
             .withSuccessHandler(openLinkDialog)
-            .generateEndQuestions(id);
+            .generateQuestionsForLectures(selectedLectures);
         }
 
-        function openLinkDialog(id){
+        function openLinkDialog(){
+          stop();
           document.getElementById("endQuestions").checked = true;
           google.script.run
             .withFailureHandler(function () { onFailure()} )
             .withSuccessHandler(function() { google.script.host.close() })
-            .createDialogWithLinks(id);
+            .createDialogWithLinks();
         }
 
-        
-
         function getLectures(){
-          /*var all = document.getElementsByName("checkboxGroup");
-          var selectedLectures "";
-          for(var i=0; i <all.length; i++){
-            if(all[i].checked){
-              selectedLectures += all[i].id + "/";
-            }
-          }*/
-
-          //if (selectedLectures.length > 0){
             var circle = document.getElementById('wait');
-            //var text = document.getElementById('checkboxGroup');
             circle.style.display = "block"; 
 
             var progressBar = document.getElementById('progressBar');
             progressBar.style.display = "block"
-            //text.style = "none";
 
-            /*var form = google.script.run
-            .withFailureHandler(function () { onFailure()} )
-            .withSuccessHandler(function() { google.script.host.close() }).generateStartQuestions();*/
-            startQuestions();
+            
+            addQuestionsForLectures();
 
             console.log("create form");
-          //}
-          //else{ google.script.host.close();
-          //}
         }
       </script>
     </head>

@@ -16,7 +16,7 @@ function getSelectedCoordinates(){
   return return_value;
 }
 
-function closeCoordinateSidebar(){
+function forwardRanges(id){
   var activeSheet = SpreadsheetApp.getActiveSheet();
 
   var selectedRanges = activeSheet.getActiveRangeList().getRanges();
@@ -27,6 +27,5 @@ function closeCoordinateSidebar(){
     numberOfColumns[i] = range.getWidth();
     values[i] = range.getValues();
   }
-
-  listAllActivities(numberOfColumns, values);
-}
+  listAllActivities(numberOfColumns, values, id);
+} 

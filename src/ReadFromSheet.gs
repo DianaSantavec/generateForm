@@ -1,9 +1,6 @@
-function listAllActivities(numberOfColumns, values){
+function listAllActivities(numberOfColumns, values, id){
 
-  console.log("usao u listAllActivities");
   var ui = SpreadsheetApp.getUi();
- 
-  //var generatedHtml = '<!DOCTYPE html> <html> <head> <base target="_top"> <script> function getLectures(){ var all = document.getElementsByName("checkboxGroup"); var selectedLectures = ""; for(var i=0; i <all.length; i++){ if(all[i].checked){ selectedLectures += all[i].id + "/";}} if (selectedLectures.length > 0){ google.script.run.withSuccessHandler(function() { google.script.host.close() }).generateForm(selectedLectures);} else{ google.script.host.close(); } } </script> </head> <body>'
 
   var generatedHtml = HtmlService.createHtmlOutputFromFile('CheckboxDialog');
 

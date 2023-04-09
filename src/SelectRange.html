@@ -67,7 +67,7 @@
  
     var circle = document.getElementById('wait');
     circle.style.display = "block";
-    google.script.run.withSuccessHandler(function() { google.script.host.close() }).closeCoordinateSidebar();
+    google.script.run.withSuccessHandler(function() { google.script.host.close() }).chooseOtherQuestions();
     }
 
     function onSuccess(coordinates) {
