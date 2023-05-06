@@ -1,11 +1,13 @@
-
 function generateQuestionsForLectures(selectedLectures) {
   var id  = ScriptProperties.getProperty('FormId');
   var form = FormApp.openById(id);
 
-  const lectures = selectedLectures.split('/');
+  var lectures = selectedLectures.split("/").map(item => item.trim());
   for (var i = 0; i < lectures.length; i++) {
-    generateQuestionsForLecture(form, lectures[i]);
+    if (lectures[i].length > 0){
+      generateQuestionsForLecture(form, lectures[i]);
+    }
+    
   }
 }
 

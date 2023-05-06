@@ -24,8 +24,8 @@ function forwardRanges(id){
   var values = [];
   for (var i = 0; i < selectedRanges.length; i++){
     var range = selectedRanges[i];
-    numberOfColumns[i] = range.getWidth();
-    values[i] = range.getValues();
+    numberOfColumns[i] = range.getWidth(); 
+    values[i] = range.getValues();    
   }
   listAllActivities(numberOfColumns, values, id);
 } 

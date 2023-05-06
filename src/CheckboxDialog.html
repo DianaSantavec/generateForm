@@ -113,7 +113,8 @@
           google.script.run
             .withFailureHandler(function () { onFailure()} )
             .withSuccessHandler(function() { google.script.host.close() })
-            .createDialogWithLinks();
+            .chooseEndQuestions();
+            //.createDialogWithLinks();
         }
 
         function getLectures(){

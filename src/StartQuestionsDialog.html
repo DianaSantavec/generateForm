@@ -61,8 +61,6 @@
   <body>
      <input type="checkbox" name="checkboxQustionsGroup" id="impressions"> <label> Impressions for entire seminar (postive/negative) </label> <br>
      <input type="checkbox" name="checkboxQustionsGroup" id="questionsForItv"> <label> Questions for inteviews </label> <br>
-     <input type="checkbox" name="checkboxQustionsGroup" id="allAssistants"> <label> Questions for all assistants </label> <br>
-     <input type="checkbox" name="checkboxQustionsGroup" id="entireSeminar"> <label> Summarize questions for entire seminar </label> <br>
 
   <script>
     function gotoForm(){
@@ -98,44 +96,14 @@
       if (document.getElementById("questionsForItv").checked){
         google.script.run
         .withFailureHandler(function () { onFailure()} )
-        .withSuccessHandler(addQuestionsForAssistants)
+        .withSuccessHandler(continueToRanges)
         .generateQuestionForInterview();
       }
       else{
         google.script.run
         .withFailureHandler(function () { onFailure()} )
-        .withSuccessHandler(addQuestionsForAssistants)
+        .withSuccessHandler(continueToRanges)
         .doNothing();
-      }
-    }
-
-    function addQuestionsForAssistants(){
-      if (document.getElementById("allAssistants").checked){
-        google.script.run
-          .withFailureHandler(function () { onFailure()} )
-          .withSuccessHandler(addEndQuestions)
-          .generateQuestionsForAssistants();
-      }
-      else{
-          google.script.run
-            .withFailureHandler(function () { onFailure()} )
-            .withSuccessHandler(addEndQuestions)
-            .doNothing();
-      }
-    }
-
-    function addEndQuestions(){
-      if(document.getElementById("entireSeminar").checked){
-        google.script.run
-          .withFailureHandler(function () { onFailure()} )
-          .withSuccessHandler(continueToRanges)
-          .generateEndQuestions();
-      }
-      else{
-        google.script.run
-          .withFailureHandler(function () { onFailure()} )
-          .withSuccessHandler(continueToRanges)
-          .doNothing();
       }
     }
 

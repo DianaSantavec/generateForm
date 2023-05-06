@@ -6,36 +6,41 @@ function listAllActivities(numberOfColumns, values, id){
 
   var saved = [""];
   for (var range = 0; range < numberOfColumns.length; range++){
-  for (const row in values[range]){
     for (i=0;i<numberOfColumns[range];i++){
+    for (const row in values[range]){
+    
       var value = values[range][row][i];
-      switch (value){
+      switch (value.toLowerCase()){
         case 'doručak':
         case 'ručak':
         case 'večera':
         case "":
-        case undefined:
+        case "\n":
         case '':
+        case undefined:
           continue;
         default:
+          var temp = value.split("\n").map(item => item.trim());
+          
         if (saved.indexOf(value) == -1){
+          console.log(value);
+          saved.push(value);
               if (value.indexOf("/") != -1){
-                var temp1 = value.substring(0, value.indexOf("/"));
-                var temp2 = value.substring(value.indexOf("/") + 2, value.length);
-                if (temp1 != 'Intervjui'){
-                  generatedHtml.append(Utilities.formatString('<input type="checkbox" name="checkboxGroup" id="%s" value="%s" checked="yes"> <label> %s </label> <br>', temp1.replace('\n',' '), temp1.replace('\n',' ') ,temp1.replace('\n',' ')));
+                var multiple = value.split("/").map(item => item.trim());
+                if (multiple[0].toLowerCase() != 'intervjui'){
+                  generatedHtml.append(Utilities.formatString('<input type="checkbox" name="checkboxGroup" id="%s" value="%s" checked="yes"> <label> %s </label> <br>', multiple[0].replace('\n',' '), multiple[0].replace('\n',' ') ,multiple[0].replace('\n',' ')));
                 }
-                if (temp2 != 'Intervjui'){
-                  generatedHtml.append(Utilities.formatString('<input type="checkbox" name="checkboxGroup" id="%s" value="%s" checked="yes"> <label> %s </label> <br>', temp2.replace('\n',' '), temp2.replace('\n',' ') ,temp2.replace('\n',' ')));
-                } 
-                //console.log('%s', temp1.replace('\n',' '));
-                //console.log('%s', temp2.replace('\n',' '));
+                if (multiple[1].toLowerCase() != 'intervjui'){
+                  generatedHtml.append(Utilities.formatString('<input type="checkbox" name="checkboxGroup" id="%s" value="%s" checked="yes"> <label> %s </label> <br>', multiple[1].replace('\n',' '), multiple[1].replace('\n',' ') ,multiple[1].replace('\n',' ')));
+                }
               }
               else{
-                //console.log('%s', value.replace('\n',' '));
+                if (temp[1] != null){
+                  value = temp[0] + " - " + temp[1];
+                }
                 generatedHtml.append(Utilities.formatString('<input type="checkbox" name="checkboxGroup" id="%s" value="%s" checked="yes"> <label> %s </label> <br>', value.replace('\n',' '), value.replace('\n',' ') ,value.replace('\n',' ')));
               }
-              saved.push(value);
+              
             }
         
         }
